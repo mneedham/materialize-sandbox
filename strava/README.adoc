@@ -1,0 +1,18 @@
+= Strava
+
+
+[source, bash]
+----
+docker run --name materialize-sandbox -p 6875:6875 materialize/materialized:v0.5.3 --workers 1
+----
+
+
+[source, bash]
+----
+docker cp activities-clean.json materialize-sandbox:/
+----
+
+[source, bash]
+----
+psql -h localhost -p 6875 materialize
+----

@@ -1,0 +1,3 @@
+= Materialize Sandbox
+
+This is a repository for my experiments with the https://materialize.com/[Materialize SQL streaming database^].
