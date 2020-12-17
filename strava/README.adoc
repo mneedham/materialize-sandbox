@@ -4,6 +4,14 @@ This repository goes with the following blog post: https://markhneedham.com/blog
 
 We can spin up an instance of Materialize by running the following:
 
+[source,bash]
+----
+git clone git@github.com:mneedham/materialize-sandbox.git
+cd materialize-sandbox/strava
+----
+
+== Docker
+
 [source, bash]
 ----
 docker run --name materialize-sandbox -p 6875:6875 materialize/materialized:v0.5.3 --workers 1
@@ -16,7 +24,14 @@ Next we'll copy the JSON file to the container:
 docker cp data/activities-clean.json materialize-sandbox:/
 ----
 
+== Docker Compose
+
 And then we can connect to Materialize, using the `psql` CLI tool:
+
+[source, bash]
+----
+docker compose up
+----
 
 [source, bash]
 ----
