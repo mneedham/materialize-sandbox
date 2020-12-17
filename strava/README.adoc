@@ -13,7 +13,7 @@ Next we'll copy the JSON file to the container:
 
 [source, bash]
 ----
-docker cp activities-clean.json materialize-sandbox:/
+docker cp data/activities-clean.json materialize-sandbox:/
 ----
 
 And then we can connect to Materialize, using the `psql` CLI tool:
