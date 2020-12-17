@@ -1,16 +1,22 @@
 = Strava
 
+This repository goes with the following blog post: https://markhneedham.com/blog/2020/12/17/materialize-querying-json-file/
+
+We can spin up an instance of Materialize by running the following:
 
 [source, bash]
 ----
 docker run --name materialize-sandbox -p 6875:6875 materialize/materialized:v0.5.3 --workers 1
 ----
 
+Next we'll copy the JSON file to the container:
 
 [source, bash]
 ----
 docker cp activities-clean.json materialize-sandbox:/
 ----
+
+And then we can connect to Materialize, using the `psql` CLI tool:
 
 [source, bash]
 ----
