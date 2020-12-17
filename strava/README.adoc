@@ -22,3 +22,5 @@ And then we can connect to Materialize, using the `psql` CLI tool:
 ----
 psql -h localhost -p 6875 materialize
 ----
+
+For queries to run against the database, see the https://markhneedham.com/blog/2020/12/17/materialize-querying-json-file/[blog post^]. 
