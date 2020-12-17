@@ -4,9 +4,13 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from stravalib.client import Client
 
-CLIENT_ID = 'GET FROM STRAVA API SITE'
-CLIENT_SECRET = 'GET FROM STRAVA API SITE'
+import os
+
+CLIENT_ID = os.getenv("CLIENT_ID")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 REDIRECT_URL = 'http://localhost:8000/authorized'
+
+print(CLIENT_ID, CLIENT_SECRET)
 
 app = FastAPI()
 client = Client()
