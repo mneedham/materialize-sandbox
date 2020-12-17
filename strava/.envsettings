@@ -1,0 +1,2 @@
+export CLIENT_ID="client_id"
+export CLIENT_SECRET="client_secret"
