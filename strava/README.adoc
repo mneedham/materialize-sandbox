@@ -1,6 +1,6 @@
 = Strava
 
-This repository goes with the following blog post: https://markhneedham.com/blog/2020/12/17/materialize-querying-json-file/
+This repository goes with the following blog post: Materialize: Querying JSON files[https://markhneedham.com/blog/2020/12/17/materialize-querying-json-file/^]
 
 We can spin up an instance of Materialize by running the following:
 
