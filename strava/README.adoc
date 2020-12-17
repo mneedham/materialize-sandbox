@@ -2,6 +2,8 @@
 
 This repository goes with the following blog post: https://markhneedham.com/blog/2020/12/17/materialize-querying-json-file[Materialize: Querying JSON files^]
 
+== Installing Materialize
+
 We can spin up an instance of Materialize by first closing this repository:
 
 [source,bash]
@@ -10,34 +12,88 @@ git clone git@github.com:mneedham/materialize-sandbox.git
 cd materialize-sandbox/strava
 ----
 
-And then following the instructions below:
-
-== Docker
-
-[source, bash]
-----
-docker run --name materialize-sandbox -p 6875:6875 materialize/materialized:v0.5.3 --workers 1
-----
-
-Next we'll copy the JSON file to the container:
-
-[source, bash]
-----
-docker cp data/activities-clean.json materialize-sandbox:/
-----
-
-== Docker Compose
-
-And then we can connect to Materialize, using the `psql` CLI tool:
+And then running the Docker Compose configuration script:
 
 [source, bash]
 ----
 docker compose up
 ----
 
+== Connecting to Materialize
+
+We'll run queries against Materialize using the `psql` CLI tool:
+
 [source, bash]
 ----
 psql -h localhost -p 6875 materialize
 ----
 
-For queries to run against the database, see the https://markhneedham.com/blog/2020/12/17/materialize-querying-json-file/[blog post^]. 
+== Queries
+
+.Create source
+[source,sql]
+----
+CREATE SOURCE activities
+FROM FILE '/data/activities-all.json' FORMAT TEXT;
+----
+
+.Create materialized view
+[source,sql]
+----
+CREATE MATERIALIZED VIEW activities_view AS
+
+SELECT  (val->>'id')::float::bigint AS id,
+        (val->>'distance')::float AS distance,
+        (val->>'moving_time')::float::int AS moving_time,
+        (val->>'elapsed_time')::float::int AS elapsed_time,
+        (val->>'total_elevation_gain')::float AS total_elevation_gain,
+        (val->>'elev_high')::float AS elev_high,
+        (val->>'elev_low')::float AS elev_low,
+        (val->>'average_speed')::float AS average_speed,
+        (val->>'max_speed')::float AS max_speed,
+        (val->>'average_heartrate')::float AS average_heartrate,
+        (val->>'max_heartrate')::float AS max_heartrate,
+        (val->>'start_date')::timestamp AS start_date
+
+FROM (SELECT text::json AS val FROM activities);
+----
+
+.Activities ordered by start date
+[source, sql]
+----
+SELECT *
+FROM activities_view
+ORDER BY start_date DESC
+LIMIT 10;
+----
+
+.Total distance run per month
+[source,sql]
+----
+SELECT date_trunc('month', start_date) AS month,
+       sum(distance) AS totalDistance
+FROM activities_view
+GROUP BY month
+ORDER BY month;
+----
+
+.Fastest runs
+[source,sql]
+----
+SELECT start_date, distance,
+       to_char(to_timestamp(moving_time / distance * 1609.34), 'MI:SS') AS pacePerMile,
+       to_char(to_timestamp(moving_time), 'HH24:MI:SS') AS time
+FROM activities_view
+ORDER BY moving_time / distance
+LIMIT 10;
+----
+
+.Fastest runs and average pace
+[source,sql]
+----
+SELECT to_char(date_trunc('month', start_date), 'YYYY-MM') AS month,
+       to_char(to_timestamp(min(moving_time / distance * 1609.34)), 'MI:SS') AS bestPacePerMile,
+       to_char(to_timestamp(avg(moving_time / distance * 1609.34)), 'MI:SS') AS averagePacePerMile
+FROM activities_view
+GROUP BY month;
+----
