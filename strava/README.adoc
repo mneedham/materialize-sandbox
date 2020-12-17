@@ -2,13 +2,15 @@
 
 This repository goes with the following blog post: https://markhneedham.com/blog/2020/12/17/materialize-querying-json-file[Materialize: Querying JSON files^]
 
-We can spin up an instance of Materialize by running the following:
+We can spin up an instance of Materialize by first closing this repository:
 
 [source,bash]
 ----
 git clone git@github.com:mneedham/materialize-sandbox.git
 cd materialize-sandbox/strava
 ----
+
+And then following the instructions below:
 
 == Docker
 
