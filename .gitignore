@@ -1,2 +1,3 @@
 strava/.notes
-strava/env
+strava/.env
+strava/auth/client.pkl
