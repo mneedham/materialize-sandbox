@@ -1,10 +1,9 @@
-import time
+import os
 import pickle
+
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from stravalib.client import Client
-
-import os
 
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
@@ -12,6 +11,7 @@ REDIRECT_URL = 'http://localhost:8000/authorized'
 
 app = FastAPI()
 client = Client()
+
 
 def save_object(obj, filename):
     with open(filename, 'wb') as output:  # Overwrites any existing file.

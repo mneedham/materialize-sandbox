@@ -34,7 +34,9 @@ psql -h localhost -p 6875 materialize
 [source,sql]
 ----
 CREATE SOURCE activities
-FROM FILE '/data/activities-all.json' FORMAT TEXT;
+FROM FILE '/data/activities-all.json'
+WITH(tail=true)
+FORMAT TEXT;
 ----
 
 .Create materialized view
