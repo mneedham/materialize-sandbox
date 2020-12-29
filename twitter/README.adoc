@@ -1,6 +1,6 @@
 = Twitter
 
-This repository goes with the following blog post: https://markhneedham.com/blog/2020/12/17/materialize-querying-json-file[Materialize: Querying JSON files^]
+This repository goes with the following blog post: https://markhneedham.com/blog/2020/12/29/materialize-json-arrays/[Materialize: Querying JSON arrays^]
 
 == Installing Materialize
 
