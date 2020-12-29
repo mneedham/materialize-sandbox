@@ -1,0 +1,9 @@
+version: '3'
+services:
+  materialize:
+    image: materialize/materialized:v0.5.3
+    container_name: "materialize-sandbox-docker-compose-twitter"
+    volumes:
+      - ./data:/data
+    ports:
+      - "6875:6875"
